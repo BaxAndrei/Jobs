@@ -215,6 +215,9 @@ public class GuiManager {
             button.setName(Jobs.getLanguage().getMessage("command.info.help.jobName", job));
             button.clearLore();
             button.addLore(lore);
+
+            generareTemplateJOB(button, job, jPlayer);
+
             if (Jobs.getGCManager().hideItemAttributes) {
                 button.hideItemFlags();
             }
@@ -613,5 +616,29 @@ public class GuiManager {
 
         gui.fillEmptyButtons();
         gui.open();
+    }
+
+    private void generareTemplateJOB(CMIGuiButton button, Job job, JobsPlayer jPlayer) {
+        List<String> lore = new ArrayList<>();
+
+        JobProgression progresieJob = jPlayer.getJobProgression(job);
+
+        lore.add(Jobs.getLanguage().getMessage("customplugin.jobtemplate.template")
+                .replace("[descriere]", String.join("\n", job.getFullDescription()))
+                .replace("[multiplier]", String.valueOf(job.getBonus() + 1) + "x")
+                .replace("[nivel]", progresieJob != null ? String.valueOf(jPlayer.getJobProgression(job).getLevel()) : "1")
+                .replace("[progres]", progresieJob != null ? Jobs.getCommandManager().jobProgressMessage(jPlayer.getJobProgression(job).getMaxExperience(), jPlayer.getJobProgression(job).getExperience()) + " " + String.format("%.0f%%",(jPlayer.getJobProgression(job).getExperience() * 100.0) / jPlayer.getJobProgression(job).getMaxExperience()) :  Jobs.getCommandManager().jobProgressMessage(1, 0) + " 0%")
+                .replace("[joinleave]", progresieJob != null ? Jobs.getLanguage().getMessage("customplugin.jobtemplate.leaveaction") : Jobs.getLanguage().getMessage("customplugin.jobtemplate.joinaction"))
+                .replace("[rewards]", Jobs.getLanguage().getMessage("customplugin.jobtemplate.rewardsaction"))
+        );
+
+        button.setName(Jobs.getLanguage().getMessage("customplugin.jobtemplate.title")
+                .replace("[job]", job.getDisplayName())
+                .replace("[angajati]", job.getTotalPlayers() + " " + (job.getTotalPlayers() == 1 ? "worker" : "workers"))
+        );
+
+        button.clearLore();
+        button.addLore(lore);
+        button.hideItemFlags();
     }
 }

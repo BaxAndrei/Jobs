@@ -732,6 +732,13 @@ public class LanguageManager {
             c.get("scoreboard.gtopline", "&2Global top list");
             c.get("scoreboard.line", "&2%number%. &e%playerdisplayname% &e(&6%level%&e)");
 
+            // custom bax
+            c.get("customplugin.jobtemplate.title", "Custom Job TITLE");
+            c.get("customplugin.jobtemplate.template", "Custom Job TEMPLATE");
+            c.get("customplugin.jobtemplate.joinaction", "Right click to join job");
+            c.get("customplugin.jobtemplate.leaveaction", "q to leave job");
+            c.get("customplugin.jobtemplate.rewardsaction", "Left click to view rewards");
+
             signKeys.clear();
             signKeys.addAll(c.getC().getConfigurationSection("signs.secondline").getKeys(false));
 
